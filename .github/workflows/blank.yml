@@ -1,0 +1,25 @@
+name: Create PR
+on:
+  workflow_dispatch:
+    inputs:
+      head:
+        type: string
+        default: test
+jobs:
+  pr:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: GitHub Script
+        uses: actions/github-script@v6.0.0
+        with:
+          script: |
+            github.rest.pulls.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              head: ${{ github.event.inputs.head }}
+              base: 'main'
+            })
+              
